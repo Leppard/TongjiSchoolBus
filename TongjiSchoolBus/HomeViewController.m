@@ -10,6 +10,9 @@
 #import "ProfileViewController.h"
 #import <Masonry/Masonry.h>
 
+//remove later
+#import "OrderApi.h"
+
 @interface HomeViewController ()
 
 @end
@@ -20,8 +23,13 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editProfile)];
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editProfile)];
+    
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(gotoNext)];
+    
+    self.navigationItem.leftBarButtonItem = leftButton;
     self.navigationItem.rightBarButtonItem = rightButton;
+    
 }
 
 #pragma mark - event response
@@ -30,6 +38,11 @@
 {
     ProfileViewController *profileController = [[ProfileViewController alloc] init];
     [self.navigationController pushViewController:profileController animated:YES];
+}
+
+- (void)gotoNext
+{
+    [OrderApi makeOrderWithParams:@{@"":@""}];
 }
 
 @end

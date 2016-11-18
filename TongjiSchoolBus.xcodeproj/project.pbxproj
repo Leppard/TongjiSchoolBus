@@ -10,6 +10,7 @@
 		621D35E14974EDB4446DE2FE /* libPods-TongjiSchoolBus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B290DDDEF18C003DC5C3DF39 /* libPods-TongjiSchoolBus.a */; };
 		8C4522441DDC0D9800163773 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4522431DDC0D9800163773 /* ProfileViewController.m */; };
 		8C4522471DDC1EE100163773 /* PersonInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4522461DDC1EE100163773 /* PersonInfo.m */; };
+		8C45224A1DDECAD900163773 /* OrderApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4522491DDECAD900163773 /* OrderApi.m */; };
 		8C8C5A291DD2E91F001EAA16 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C8C5A281DD2E91F001EAA16 /* main.m */; };
 		8C8C5A2C1DD2E91F001EAA16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C8C5A2B1DD2E91F001EAA16 /* AppDelegate.m */; };
 		8C8C5A341DD2E91F001EAA16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C8C5A331DD2E91F001EAA16 /* Assets.xcassets */; };
@@ -22,6 +23,8 @@
 		8C4522431DDC0D9800163773 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		8C4522451DDC1EE100163773 /* PersonInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonInfo.h; sourceTree = "<group>"; };
 		8C4522461DDC1EE100163773 /* PersonInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonInfo.m; sourceTree = "<group>"; };
+		8C4522481DDECAD900163773 /* OrderApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderApi.h; sourceTree = "<group>"; };
+		8C4522491DDECAD900163773 /* OrderApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderApi.m; sourceTree = "<group>"; };
 		8C8C5A241DD2E91F001EAA16 /* TongjiSchoolBus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TongjiSchoolBus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C8C5A281DD2E91F001EAA16 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8C8C5A2A1DD2E91F001EAA16 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -90,6 +93,8 @@
 				8C4522431DDC0D9800163773 /* ProfileViewController.m */,
 				8C4522451DDC1EE100163773 /* PersonInfo.h */,
 				8C4522461DDC1EE100163773 /* PersonInfo.m */,
+				8C4522481DDECAD900163773 /* OrderApi.h */,
+				8C4522491DDECAD900163773 /* OrderApi.m */,
 			);
 			path = TongjiSchoolBus;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C8C5A2C1DD2E91F001EAA16 /* AppDelegate.m in Sources */,
+				8C45224A1DDECAD900163773 /* OrderApi.m in Sources */,
 				8C8C5A291DD2E91F001EAA16 /* main.m in Sources */,
 				8C4522441DDC0D9800163773 /* ProfileViewController.m in Sources */,
 				8C4522471DDC1EE100163773 /* PersonInfo.m in Sources */,
