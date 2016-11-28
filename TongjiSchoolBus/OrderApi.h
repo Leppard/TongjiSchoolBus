@@ -10,7 +10,8 @@
 
 @interface OrderApi : NSObject
 
++ (void)getBusListWithParams:(NSDictionary *)params success:(void (^)(NSURLSessionDataTask *task, id resposeObject))success failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure;
 
-+ (void)makeOrderWithParams:(NSDictionary *)params;
++ (void)makeOrderWithParams:(NSDictionary *)params success:(void (^)(NSURLSessionDataTask *task, id resposeObject))success failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure;
 
 @end
