@@ -20,7 +20,9 @@
 @property (nonatomic, strong) UIPickerView *startArea;
 @property (nonatomic, strong) UIPickerView *endArea;
 
-@property (nonatomic, strong) UIDatePicker *datePicker;
+@property (nonatomic, strong) UIPickerView *datePicker;
+@property (nonatomic, strong) NSArray *monthNames;
+@property (nonatomic, strong) NSDateComponents *currentDate;
 
 @end
 
@@ -31,6 +33,11 @@
     [super viewDidLoad];
     
     _areaArray = @[@"四平", @"嘉定", @"沪西", @"曹杨八村", @"三门路同济北苑"];
+    _currentDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+    
+    NSDateFormatter * df = [[NSDateFormatter alloc] init];
+    [df setLocale:[[NSLocale alloc] initWithLocaleIdentifier:[[NSLocale preferredLanguages] objectAtIndex:0]]];
+    _monthNames = [df monthSymbols];
     
     self.view.backgroundColor = [UIColor whiteColor];
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editProfile)];
@@ -54,10 +61,16 @@
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"YYYY-MM-dd";
+    NSDateComponents *selectComps = [[NSDateComponents alloc] init];
+    selectComps.year = self.currentDate.year+[self.datePicker selectedRowInComponent:0];
+    selectComps.month = [self.datePicker selectedRowInComponent:1]+1;
+    selectComps.day = [self.datePicker selectedRowInComponent:2]+1;
+    NSDate *selectDate = [[NSCalendar currentCalendar] dateFromComponents:selectComps];
+    
     NSDictionary *params = @{
                              @"startArea": [self.areaArray objectAtIndex:[self.startArea selectedRowInComponent:0]],
                              @"endArea": [self.areaArray objectAtIndex:[self.endArea selectedRowInComponent:0]],
-                             @"startDate":[formatter stringFromDate:self.datePicker.date]
+                             @"startDate":[formatter stringFromDate:selectDate]
                              };
     
     [OrderApi getBusListWithParams:params
@@ -72,12 +85,50 @@
 #pragma mark - UIPickerViewDataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    return 1;
+    if (pickerView != self.datePicker) {
+        return 1;
+    }
+    return 3;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return 5;
+    if (pickerView != self.datePicker) {
+        return 5;
+    } else {
+        switch (component) {
+            case 0:
+                return 2;
+                break;
+            case 1:
+                return 12;
+                break;
+            case 2: {
+                NSDateComponents *selectMothComps = [[NSDateComponents alloc] init];
+                selectMothComps.year = self.currentDate.year+[pickerView selectedRowInComponent:0];
+                selectMothComps.month = [pickerView selectedRowInComponent:1]+1;
+                selectMothComps.day = 1;
+                
+                NSDateComponents *nextMothComps = [[NSDateComponents alloc] init];
+                nextMothComps.year = selectMothComps.year;
+                nextMothComps.month = selectMothComps.month+1;
+                nextMothComps.day = 1;
+                
+                NSDate *thisMonthDate = [[NSCalendar currentCalendar] dateFromComponents:selectMothComps];
+                NSDate *nextMonthDate = [[NSCalendar currentCalendar] dateFromComponents:nextMothComps];
+                
+                NSDateComponents *differnce = [[NSCalendar currentCalendar]  components:NSCalendarUnitDay
+                                                                               fromDate:thisMonthDate
+                                                                                 toDate:nextMonthDate
+                                                                                options:0];
+                return differnce.day;
+                break;
+            }
+            default:
+                return 0;
+                break;
+        }
+    }
 }
 
 #pragma mark - UIPickerViewDelegate
@@ -87,11 +138,35 @@
     UILabel *label = (UILabel *)view;
     if (!label) {
         label = [[UILabel alloc] init];
-        label.font = [UIFont systemFontOfSize:13];
+//        label.font = [UIFont systemFontOfSize:13];
         label.textAlignment = NSTextAlignmentCenter;
+        if (pickerView != self.datePicker) {
+            label.text = [self.areaArray objectAtIndex:row];
+        } else {
+            switch (component) {
+                case 0:
+                    label.text = [NSString stringWithFormat:@"%ld", self.currentDate.year+row];
+                    break;
+                case 1:
+                    label.text = [self.monthNames objectAtIndex:row];
+                    break;
+                case 2:
+                    label.text = [NSString stringWithFormat:@"%ld", row+1];
+                    break;
+                default:
+                    break;
+            }
+        }
     }
-    label.text = [self.areaArray objectAtIndex:row];
     return label;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    if (pickerView == self.datePicker && component != 2) {
+        [pickerView reloadComponent:2];
+    }
+    return;
 }
 
 #pragma mark - private methods
@@ -154,12 +229,12 @@
     return _endArea;
 }
 
-- (UIDatePicker *)datePicker
+- (UIPickerView *)datePicker
 {
     if (!_datePicker) {
-        _datePicker = [[UIDatePicker alloc] init];
-        _datePicker.datePickerMode = UIDatePickerModeDate;
-        _datePicker.date = [NSDate date];
+        _datePicker = [[UIPickerView alloc] init];
+        _datePicker.dataSource = self;
+        _datePicker.delegate = self;
     }
     return _datePicker;
 }
