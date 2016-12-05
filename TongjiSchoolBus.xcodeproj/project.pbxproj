@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		621D35E14974EDB4446DE2FE /* libPods-TongjiSchoolBus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B290DDDEF18C003DC5C3DF39 /* libPods-TongjiSchoolBus.a */; };
+		8C03E4851DEFEE81004B9E36 /* BusListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C03E4841DEFEE81004B9E36 /* BusListTableViewController.m */; };
+		8C03E4881DEFF414004B9E36 /* BusListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C03E4871DEFF414004B9E36 /* BusListTableViewCell.m */; };
 		8C4522441DDC0D9800163773 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4522431DDC0D9800163773 /* ProfileViewController.m */; };
 		8C4522471DDC1EE100163773 /* PersonInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4522461DDC1EE100163773 /* PersonInfo.m */; };
 		8C45224A1DDECAD900163773 /* OrderApi.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4522491DDECAD900163773 /* OrderApi.m */; };
@@ -19,6 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8C03E4831DEFEE81004B9E36 /* BusListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusListTableViewController.h; sourceTree = "<group>"; };
+		8C03E4841DEFEE81004B9E36 /* BusListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusListTableViewController.m; sourceTree = "<group>"; };
+		8C03E4861DEFF414004B9E36 /* BusListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusListTableViewCell.h; sourceTree = "<group>"; };
+		8C03E4871DEFF414004B9E36 /* BusListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusListTableViewCell.m; sourceTree = "<group>"; };
 		8C4522421DDC0D9800163773 /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
 		8C4522431DDC0D9800163773 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		8C4522451DDC1EE100163773 /* PersonInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonInfo.h; sourceTree = "<group>"; };
@@ -95,6 +101,10 @@
 				8C4522461DDC1EE100163773 /* PersonInfo.m */,
 				8C4522481DDECAD900163773 /* OrderApi.h */,
 				8C4522491DDECAD900163773 /* OrderApi.m */,
+				8C03E4831DEFEE81004B9E36 /* BusListTableViewController.h */,
+				8C03E4841DEFEE81004B9E36 /* BusListTableViewController.m */,
+				8C03E4861DEFF414004B9E36 /* BusListTableViewCell.h */,
+				8C03E4871DEFF414004B9E36 /* BusListTableViewCell.m */,
 			);
 			path = TongjiSchoolBus;
 			sourceTree = "<group>";
@@ -238,9 +248,11 @@
 			files = (
 				8C8C5A2C1DD2E91F001EAA16 /* AppDelegate.m in Sources */,
 				8C45224A1DDECAD900163773 /* OrderApi.m in Sources */,
+				8C03E4881DEFF414004B9E36 /* BusListTableViewCell.m in Sources */,
 				8C8C5A291DD2E91F001EAA16 /* main.m in Sources */,
 				8C4522441DDC0D9800163773 /* ProfileViewController.m in Sources */,
 				8C4522471DDC1EE100163773 /* PersonInfo.m in Sources */,
+				8C03E4851DEFEE81004B9E36 /* BusListTableViewController.m in Sources */,
 				8C8C5A401DD2EC46001EAA16 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

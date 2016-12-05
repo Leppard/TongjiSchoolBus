@@ -8,10 +8,9 @@
 
 #import "HomeViewController.h"
 #import "ProfileViewController.h"
-#import <Masonry/Masonry.h>
-
-//remove later
+#import "BusListTableViewController.h"
 #import "OrderApi.h"
+#import <Masonry/Masonry.h>
 
 @interface HomeViewController ()<UIPickerViewDelegate, UIPickerViewDataSource>
 
@@ -73,12 +72,14 @@
                              @"startDate":[formatter stringFromDate:selectDate]
                              };
     
+    __weak typeof(self) weakSelf = self;
     [OrderApi getBusListWithParams:params
                            success:^(NSURLSessionDataTask *task, id responseObject) {
-                               NSLog(@"%@", responseObject);
+                               BusListTableViewController *controller = [[BusListTableViewController alloc] initWithDataList:(NSArray *)responseObject];
+                               [weakSelf.navigationController pushViewController:controller animated:YES];
     }
                            failure:^(NSURLSessionDataTask *task, NSError *error) {
-                               NSLog(@"network failed");
+                               NSLog(@"Network failed");
                            }];
 }
 
