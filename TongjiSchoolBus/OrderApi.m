@@ -31,6 +31,7 @@ static NSString *const kMakeOrderUrlString = @"http://202.120.164.35:8080/cws/ws
         return;
     }
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager GET:kMakeOrderUrlString parameters:params progress:nil
          success:success
          failure:failure];

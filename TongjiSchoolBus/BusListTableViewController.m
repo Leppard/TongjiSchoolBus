@@ -60,8 +60,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView cellForRowAtIndexPath:indexPath].selected = NO;
+    
     if (![self checkIfStudentInfoComplete]) {
-        [tableView cellForRowAtIndexPath:indexPath].selected = NO;
         return;
     }
     
@@ -70,9 +71,9 @@
     NSString *carId = [[self. listArray objectAtIndex:indexPath.row] objectForKey:@"carId"];
     // try real carId to make a order
     BOOL ifSuccess = [self tryMakeOrderWithParams:params withCarId:carId];
-    if (!ifSuccess) {
-        [self tryMakeOrderWithParams:params withCarId:[NSString stringWithFormat:@"99"]];
-    }
+//    if (!ifSuccess) {
+//        [self tryMakeOrderWithParams:params withCarId:[NSString stringWithFormat:@"99"]];
+//    }
 }
 
 #pragma mark - private methods
@@ -124,17 +125,22 @@
 
 - (BOOL)tryMakeOrderWithParams:(NSDictionary *)params withCarId:(NSString *)carId
 {
-    [params setValue:carId forKey:@"carid"];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:params];
+    [dic setValue:carId forKey:@"carid"];
     
-    BOOL ifSuccess = NO;
-    [OrderApi makeOrderWithParams:params
+    __block BOOL ifSuccess = NO;
+#warning - 把ifSuccess 变成全局的
+    [OrderApi makeOrderWithParams:dic
                           success:^(NSURLSessionDataTask *task, id responseObject) {
-                              if(responseObject) {
-                                  NSLog(@"asdasdadasdasda");
+                              if([responseObject isKindOfClass:[NSData class]]) {
+                                  NSString *str = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+                                  if (![str containsString:@"null"]) {
+                                      ifSuccess = YES;
+                                  }
                               }
                           }
                           failure:^(NSURLSessionDataTask *task, NSError *error) {
-                              
+                              NSLog(@"order fail");
                           }];
     return ifSuccess;
 }
