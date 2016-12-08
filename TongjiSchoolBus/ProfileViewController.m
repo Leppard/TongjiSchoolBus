@@ -48,8 +48,8 @@
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
-    PersonInfo *info = [[PersonInfo alloc] initWithName:self.nameField.text studentID:self.idField.text];
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:info];
+    [[PersonInfo sharedInfo] setName:self.nameField.text studentID:self.idField.text];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[PersonInfo sharedInfo]];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:data forKey:@"kPersonalInfo"];
@@ -104,7 +104,8 @@
     id object = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
     if (object && [object isMemberOfClass:[PersonInfo class]]) {
-        PersonInfo *info = (PersonInfo *)object;
+        PersonInfo *info = [PersonInfo sharedInfo];
+        info = (PersonInfo *)object;
         self.nameField.text = info.name;
         self.idField.text = info.studentID;
     }

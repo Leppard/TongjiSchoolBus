@@ -13,6 +13,8 @@
 @property (nonatomic, copy, readonly) NSString *name;
 @property (nonatomic, copy, readonly) NSString *studentID;
 
-- (instancetype)initWithName:(NSString *)name studentID:(NSString *)studentID;
++ (instancetype)sharedInfo;
+
+- (void)setName:(NSString *)name studentID:(NSString *)studentID;
 
 @end

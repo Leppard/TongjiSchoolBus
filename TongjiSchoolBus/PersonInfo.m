@@ -21,14 +21,24 @@ static NSString *const kPersonID = @"studentID";
 @implementation PersonInfo
 
 #pragma mark - life cycle
-- (instancetype)initWithName:(NSString *)name studentID:(NSString *)studentID
++ (instancetype)sharedInfo
 {
-    self = [super init];
-    if (self) {
-        _name = name;
-        _studentID = studentID;
-    }
-    return self;
+    static PersonInfo *info = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        info = [[PersonInfo alloc] init];
+        info.name = @"";
+        info.studentID = @"";
+    });
+    return info;
+}
+
+#pragma mark - public methods
+- (void)setName:(NSString *)name studentID:(NSString *)studentID
+{
+    self.name = name;
+    self.studentID = studentID;
 }
 
 #pragma mark - NSCoding

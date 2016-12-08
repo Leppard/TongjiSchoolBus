@@ -8,6 +8,8 @@
 
 #import "BusListTableViewController.h"
 #import "BusListTableViewCell.h"
+#import "PersonInfo.h"
+#import "OrderApi.h"
 
 @interface BusListTableViewController ()
 
@@ -58,7 +60,83 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (![self checkIfStudentInfoComplete]) {
+        [tableView cellForRowAtIndexPath:indexPath].selected = NO;
+        return;
+    }
     
+    NSDictionary *params = [self makeUpParamsForOrderAtIndexPath:indexPath];
+    
+    NSString *carId = [[self. listArray objectAtIndex:indexPath.row] objectForKey:@"carId"];
+    // try real carId to make a order
+    BOOL ifSuccess = [self tryMakeOrderWithParams:params withCarId:carId];
+    if (!ifSuccess) {
+        [self tryMakeOrderWithParams:params withCarId:[NSString stringWithFormat:@"99"]];
+    }
+}
+
+#pragma mark - private methods
+- (NSDictionary *)makeUpParamsForOrderAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary *dictionary = [self.listArray objectAtIndex:indexPath.row];
+    
+    NSString *yesterdayStr = [self yesterdayFromDateString:[dictionary objectForKey:@"startDate"]];
+    NSString *reserveStr = [NSString stringWithFormat:@"%@ 07:01", yesterdayStr];
+    
+    NSDictionary *params = @{
+                             @"startArea": [dictionary objectForKey:@"startArea"],
+                             @"endArea": [dictionary objectForKey:@"endArea"],
+                             @"startTime": [dictionary objectForKey:@"time"],
+                             @"startDate": [dictionary objectForKey:@"startDate"],
+                             @"line": [dictionary objectForKey:@"line"],
+                             @"sno": [PersonInfo sharedInfo].studentID,
+                             @"sname": [PersonInfo sharedInfo].name,
+                             @"reservetime": reserveStr
+                             };
+    return params;
+}
+
+- (BOOL)checkIfStudentInfoComplete
+{
+    if ([PersonInfo sharedInfo].studentID.length == 0 || [PersonInfo sharedInfo].name.length == 0) {
+        __weak typeof(self) weakSelf = self;
+        UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"提示" message:@"个人信息不全，点击首页Edit" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }];
+        [controller addAction:action];
+        [self presentViewController:controller animated:YES completion:nil];
+        
+        return NO;
+    }
+    return YES;
+}
+
+- (NSString *)yesterdayFromDateString:(NSString *)string
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *date = [dateFormatter dateFromString:string];
+    NSDate *yesterday = [date dateByAddingTimeInterval: -86400.0];
+    NSString *yesterdayStr = [dateFormatter stringFromDate:yesterday];
+    return yesterdayStr;
+}
+
+- (BOOL)tryMakeOrderWithParams:(NSDictionary *)params withCarId:(NSString *)carId
+{
+    [params setValue:carId forKey:@"carid"];
+    
+    BOOL ifSuccess = NO;
+    [OrderApi makeOrderWithParams:params
+                          success:^(NSURLSessionDataTask *task, id responseObject) {
+                              if(responseObject) {
+                                  NSLog(@"asdasdadasdasda");
+                              }
+                          }
+                          failure:^(NSURLSessionDataTask *task, NSError *error) {
+                              
+                          }];
+    return ifSuccess;
 }
 
 @end

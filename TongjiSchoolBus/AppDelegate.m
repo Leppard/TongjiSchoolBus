@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "PersonInfo.h"
 #import "HomeViewController.h"
 
 @interface AppDelegate ()
@@ -25,7 +26,6 @@
     self.window.rootViewController = navController;
     
     [self.window makeKeyAndVisible];
-    
     
     return YES;
 }
