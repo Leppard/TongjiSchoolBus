@@ -142,7 +142,7 @@
     UILabel *label = (UILabel *)view;
     if (!label) {
         label = [[UILabel alloc] init];
-        label.font = [UIFont systemFontOfSize:13];
+        label.font = [UIFont systemFontOfSize:15];
         label.textAlignment = NSTextAlignmentCenter;
         if (pickerView != self.datePicker) {
             label.text = [self.areaArray objectAtIndex:row];

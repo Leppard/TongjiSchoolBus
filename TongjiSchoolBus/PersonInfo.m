@@ -30,6 +30,13 @@ static NSString *const kPersonID = @"studentID";
         info = [[PersonInfo alloc] init];
         info.name = @"";
         info.studentID = @"";
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *data = [defaults objectForKey:@"kPersonalInfo"];
+        id object = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        if (object && [object isMemberOfClass:[PersonInfo class]]) {
+            info = (PersonInfo *)object;
+        }
     });
     return info;
 }

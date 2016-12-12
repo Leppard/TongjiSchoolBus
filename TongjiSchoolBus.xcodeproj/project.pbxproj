@@ -40,6 +40,7 @@
 		8C8C5A3E1DD2EC46001EAA16 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		8C8C5A3F1DD2EC46001EAA16 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		8C8C5A411DD2ED5B001EAA16 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		8CD0765D1DFEC366003AD775 /* TongjiSchoolBus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TongjiSchoolBus.entitlements; sourceTree = "<group>"; };
 		B290DDDEF18C003DC5C3DF39 /* libPods-TongjiSchoolBus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TongjiSchoolBus.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9BD94547AFC2169F2BB1C50 /* Pods-TongjiSchoolBus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TongjiSchoolBus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TongjiSchoolBus/Pods-TongjiSchoolBus.debug.xcconfig"; sourceTree = "<group>"; };
 		FDE48518217CC528440637BE /* Pods-TongjiSchoolBus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TongjiSchoolBus.release.xcconfig"; path = "Pods/Target Support Files/Pods-TongjiSchoolBus/Pods-TongjiSchoolBus.release.xcconfig"; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 		8C8C5A261DD2E91F001EAA16 /* TongjiSchoolBus */ = {
 			isa = PBXGroup;
 			children = (
+				8CD0765D1DFEC366003AD775 /* TongjiSchoolBus.entitlements */,
 				8C8C5A2A1DD2E91F001EAA16 /* AppDelegate.h */,
 				8C8C5A2B1DD2E91F001EAA16 /* AppDelegate.m */,
 				8C8C5A3E1DD2EC46001EAA16 /* HomeViewController.h */,
@@ -159,7 +161,13 @@
 				TargetAttributes = {
 					8C8C5A231DD2E91E001EAA16 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = GDCPERAN5R;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.WAC = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -300,7 +308,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -341,7 +349,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -353,6 +361,7 @@
 			baseConfigurationReference = D9BD94547AFC2169F2BB1C50 /* Pods-TongjiSchoolBus.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = GDCPERAN5R;
 				INFOPLIST_FILE = TongjiSchoolBus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Leppard.TongjiSchoolBus;
@@ -365,6 +374,7 @@
 			baseConfigurationReference = FDE48518217CC528440637BE /* Pods-TongjiSchoolBus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = GDCPERAN5R;
 				INFOPLIST_FILE = TongjiSchoolBus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Leppard.TongjiSchoolBus;

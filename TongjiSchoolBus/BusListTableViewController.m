@@ -11,8 +11,6 @@
 #import "PersonInfo.h"
 #import "OrderApi.h"
 
-static NSInteger carIdCount = 0;
-
 @interface BusListTableViewController ()
 
 @property (nonatomic, strong) UIAlertController *successAlert;
@@ -21,6 +19,7 @@ static NSInteger carIdCount = 0;
 @property (nonatomic, strong) UIActivityIndicatorView *indicator;
 
 @property (nonatomic, strong) NSArray *listArray;
+@property (nonatomic, assign) NSInteger carIdCount;
 
 @end
 
@@ -31,6 +30,7 @@ static NSInteger carIdCount = 0;
     self = [super init];
     if (self && listArray) {
         _listArray = listArray;
+        _carIdCount = 0;
     }
     return self;
 }
@@ -131,7 +131,7 @@ static NSInteger carIdCount = 0;
 
 - (void)makeOrderWithParams:(NSDictionary *)params withCarId:(NSString *)carId
 {
-    carIdCount ++;
+    self.carIdCount ++;
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:params];
     [dic setValue:carId forKey:@"carid"];
@@ -155,21 +155,21 @@ static NSInteger carIdCount = 0;
                                       [weakSelf presentViewController:weakSelf.successAlert animated:YES completion:nil];
                                   } else {
                                       // 订票失败
-                                      if (carIdCount == 1) {
+                                      if (self.carIdCount == 1) {
                                           // carIdCount == 1代表第一次递归，只有这次会弹提示框
                                           UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
                                           UIAlertAction *fakeOrder = [UIAlertAction actionWithTitle:@"生成" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                                               [weakSelf.indicator startAnimating];
                                               weakSelf.indicator.hidden = NO;
                                               
-                                              [weakSelf makeOrderWithParams:params withCarId:[NSString stringWithFormat:@"%ld", carIdCount]];
+                                              [weakSelf makeOrderWithParams:params withCarId:[NSString stringWithFormat:@"%ld", self.carIdCount]];
                                           }];
                                           [weakSelf.failureAlert addAction:cancel];
                                           [weakSelf.failureAlert addAction:fakeOrder];
                                           [weakSelf presentViewController:weakSelf.failureAlert animated:YES completion:nil];
                                       } else {
-                                          if (carIdCount < 33) {
-                                              [weakSelf makeOrderWithParams:params withCarId:[NSString stringWithFormat:@"%ld", carIdCount]];
+                                          if (self.carIdCount < 33) {
+                                              [weakSelf makeOrderWithParams:params withCarId:[NSString stringWithFormat:@"%ld", self.carIdCount]];
                                           }
                                       }
                                   }
@@ -179,7 +179,7 @@ static NSInteger carIdCount = 0;
                               NSLog(@"order fail");
                           }];
 }
-//
+
 #pragma mark - getters & setters
 - (UIAlertController *)successAlert
 {
