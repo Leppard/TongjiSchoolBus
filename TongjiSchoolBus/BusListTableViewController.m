@@ -11,7 +11,14 @@
 #import "PersonInfo.h"
 #import "OrderApi.h"
 
+static NSInteger carIdCount = 0;
+
 @interface BusListTableViewController ()
+
+@property (nonatomic, strong) UIAlertController *successAlert;
+@property (nonatomic, strong) UIAlertController *failureAlert;
+
+@property (nonatomic, strong) UIActivityIndicatorView *indicator;
 
 @property (nonatomic, strong) NSArray *listArray;
 
@@ -31,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerClass:[BusListTableViewCell class] forCellReuseIdentifier:NSStringFromClass([BusListTableViewCell class])];
+    
+    [[UIApplication sharedApplication].keyWindow addSubview:self.indicator];
 }
 
 #pragma mark - UITableViewDataSource
@@ -69,11 +78,8 @@
     NSDictionary *params = [self makeUpParamsForOrderAtIndexPath:indexPath];
     
     NSString *carId = [[self. listArray objectAtIndex:indexPath.row] objectForKey:@"carId"];
-    // try real carId to make a order
-    BOOL ifSuccess = [self tryMakeOrderWithParams:params withCarId:carId];
-//    if (!ifSuccess) {
-//        [self tryMakeOrderWithParams:params withCarId:[NSString stringWithFormat:@"99"]];
-//    }
+
+    [self makeOrderWithParams:params withCarId:carId];
 }
 
 #pragma mark - private methods
@@ -123,26 +129,83 @@
     return yesterdayStr;
 }
 
-- (BOOL)tryMakeOrderWithParams:(NSDictionary *)params withCarId:(NSString *)carId
+- (void)makeOrderWithParams:(NSDictionary *)params withCarId:(NSString *)carId
 {
+    carIdCount ++;
+    
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:params];
     [dic setValue:carId forKey:@"carid"];
     
-    __block BOOL ifSuccess = NO;
-#warning - 把ifSuccess 变成全局的
+    __weak typeof(self) weakSelf = self;
     [OrderApi makeOrderWithParams:dic
                           success:^(NSURLSessionDataTask *task, id responseObject) {
                               if([responseObject isKindOfClass:[NSData class]]) {
                                   NSString *str = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
                                   if (![str containsString:@"null"]) {
-                                      ifSuccess = YES;
+                                      // 订票成功
+                                      if (weakSelf.indicator.hidden == NO) {
+                                          [weakSelf.indicator stopAnimating];
+                                          weakSelf.indicator.hidden = YES;
+                                          [weakSelf.failureAlert dismissViewControllerAnimated:YES completion:nil];
+                                      }
+                                      UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                                          [weakSelf.navigationController popViewControllerAnimated:YES];
+                                      }];
+                                      [weakSelf.successAlert addAction:action];
+                                      [weakSelf presentViewController:weakSelf.successAlert animated:YES completion:nil];
+                                  } else {
+                                      // 订票失败
+                                      if (carIdCount == 1) {
+                                          // carIdCount == 1代表第一次递归，只有这次会弹提示框
+                                          UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                                          UIAlertAction *fakeOrder = [UIAlertAction actionWithTitle:@"生成" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                                              [weakSelf.indicator startAnimating];
+                                              weakSelf.indicator.hidden = NO;
+                                              
+                                              [weakSelf makeOrderWithParams:params withCarId:[NSString stringWithFormat:@"%ld", carIdCount]];
+                                          }];
+                                          [weakSelf.failureAlert addAction:cancel];
+                                          [weakSelf.failureAlert addAction:fakeOrder];
+                                          [weakSelf presentViewController:weakSelf.failureAlert animated:YES completion:nil];
+                                      } else {
+                                          if (carIdCount < 33) {
+                                              [weakSelf makeOrderWithParams:params withCarId:[NSString stringWithFormat:@"%ld", carIdCount]];
+                                          }
+                                      }
                                   }
                               }
                           }
                           failure:^(NSURLSessionDataTask *task, NSError *error) {
                               NSLog(@"order fail");
                           }];
-    return ifSuccess;
+}
+//
+#pragma mark - getters & setters
+- (UIAlertController *)successAlert
+{
+    if (!_successAlert) {
+        _successAlert = [UIAlertController alertControllerWithTitle:@"提示" message:@"订票成功" preferredStyle:UIAlertControllerStyleAlert];
+    }
+    return _successAlert;
+}
+
+- (UIAlertController *)failureAlert
+{
+    if (!_failureAlert) {
+        _failureAlert = [UIAlertController alertControllerWithTitle:@"失败" message:@"票已订完，可以强行生成一张票（学生端可以查看，司机端查看不到但可以通过扫码）" preferredStyle:UIAlertControllerStyleAlert];
+    }
+    return _failureAlert;
+}
+
+- (UIActivityIndicatorView *)indicator
+{
+    if (!_indicator) {
+        _indicator = [[UIActivityIndicatorView alloc] initWithFrame:self.view.frame];
+        _indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+        _indicator.userInteractionEnabled = YES;
+        _indicator.hidden = YES;
+    }
+    return _indicator;
 }
 
 @end

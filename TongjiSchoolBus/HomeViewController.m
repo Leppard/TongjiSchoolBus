@@ -79,7 +79,10 @@
                                [weakSelf.navigationController pushViewController:controller animated:YES];
     }
                            failure:^(NSURLSessionDataTask *task, NSError *error) {
-                               NSLog(@"Network failed");
+                               UIAlertController *controller = [UIAlertController alertControllerWithTitle:@"提示" message:@"该路线没有查询到有效班次" preferredStyle:UIAlertControllerStyleAlert];
+                               UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+                               [controller addAction:action];
+                               [self presentViewController:controller animated:YES completion:nil];
                            }];
 }
 
