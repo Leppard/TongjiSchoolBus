@@ -30,7 +30,6 @@
     self = [super init];
     if (self && listArray) {
         _listArray = listArray;
-        _carIdCount = 0;
     }
     return self;
 }
@@ -79,6 +78,7 @@
     
     NSString *carId = [[self. listArray objectAtIndex:indexPath.row] objectForKey:@"carId"];
 
+    self.carIdCount = 0;
     [self makeOrderWithParams:params withCarId:carId];
 }
 
