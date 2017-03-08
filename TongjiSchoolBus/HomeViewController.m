@@ -47,6 +47,8 @@
     self.navigationItem.rightBarButtonItem = rightButton;
     
     [self setUpViewsWithConstraints];
+    
+    [self gotoToday];
 }
 
 #pragma mark - event response
@@ -210,6 +212,14 @@
         make.top.equalTo(self.view.mas_centerY).offset(20);
         make.centerX.equalTo(self.view.mas_centerX);
     }];
+}
+
+- (void)gotoToday
+{
+    NSDate *today = [NSDate date];
+    NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:today];
+    [self.datePicker selectRow:comps.month-1 inComponent:1 animated:NO];
+    [self.datePicker selectRow:comps.day-1 inComponent:2 animated:NO];
 }
 
 #pragma mark - getters & setters

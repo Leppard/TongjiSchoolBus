@@ -161,8 +161,7 @@
 				TargetAttributes = {
 					8C8C5A231DD2E91E001EAA16 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = GDCPERAN5R;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.WAC = {
 								enabled = 0;
@@ -361,7 +360,7 @@
 			baseConfigurationReference = D9BD94547AFC2169F2BB1C50 /* Pods-TongjiSchoolBus.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = GDCPERAN5R;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TongjiSchoolBus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Leppard.TongjiSchoolBus;
@@ -374,7 +373,7 @@
 			baseConfigurationReference = FDE48518217CC528440637BE /* Pods-TongjiSchoolBus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = GDCPERAN5R;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = TongjiSchoolBus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Leppard.TongjiSchoolBus;

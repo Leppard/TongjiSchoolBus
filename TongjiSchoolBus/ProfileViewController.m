@@ -105,7 +105,6 @@
     
     if (object && [object isMemberOfClass:[PersonInfo class]]) {
         PersonInfo *info = [PersonInfo sharedInfo];
-        info = (PersonInfo *)object;
         self.nameField.text = info.name;
         self.idField.text = info.studentID;
     }
